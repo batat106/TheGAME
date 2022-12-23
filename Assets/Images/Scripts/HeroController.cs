@@ -5,23 +5,27 @@ using UnityEngine;
 public class HeroController : MonoBehaviour
 {
     private float speed = 15f;
-    private float jump_force = 15f;
+    private float jump_force = 10f;
     private float fallGravityMultiplier = 2f;
     private bool in_air;
+
+    public ParticleSystem dust;
+
     Rigidbody2D rb;
     Animator anim;
-    // Start is called before the first frame update
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
+        // jump
         float velocity = Input.GetAxis("Horizontal");
-        if(Input.GetKey(KeyCode.UpArrow)&& !in_air)
+        if((Input.GetKey(KeyCode.UpArrow) && !in_air) || (Input.GetKey(KeyCode.W) && !in_air))
         {
             in_air = true;
             rb.velocity += Vector2.up * jump_force;
@@ -29,9 +33,11 @@ public class HeroController : MonoBehaviour
         rb.velocity = new Vector2(velocity * speed, rb.velocity.y);
         SetAnimationProperties(velocity);
 
+        // rotation 
         if(velocity != 0)
         {
-            transform.localScale = new Vector3(((velocity < 0) ? -10:10), transform.localScale.y ) ;
+            CreateDust();
+            transform.localScale = new Vector3(((velocity < 0) ? -7:7), transform.localScale.y ) ;
         }
     }
 
@@ -58,4 +64,10 @@ public class HeroController : MonoBehaviour
             in_air = false;
         }
     }
+    
+    void CreateDust()
+    {
+        dust.Play();
+    }
+
 }
