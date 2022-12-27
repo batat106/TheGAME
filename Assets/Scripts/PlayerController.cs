@@ -67,6 +67,13 @@ public class PlayerController : MonoBehaviour
             rolling = false;
             rollCurrentTime = 0;
         }
+        // Dead
+        if (hearts == 0)
+        {
+            GoToStartPoint();
+            return;
+        }
+        
         SetAnimationProperties(velocity);
     }
 
@@ -79,6 +86,12 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    void GoToStartPoint()
+    {
+        hearts = 3;
+        transfrom.position = new Vector3(respawn_pos.x, respawn_pos.y);
+    }
+    
     void SetAnimationProperties(float velocity)
     {
         anim.SetBool("Run", velocity != 0);
@@ -94,7 +107,13 @@ public class PlayerController : MonoBehaviour
             in_air = false;
         }
     }
+    
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.gameObject.name == "DeathPit");
+        hearts = 0;
 
+    }
     //void CreateDust()
     //{
     //    dust.Play();
