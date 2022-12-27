@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public int hearts = 3;
+    private (float x, float y) respawn_pos;
+    
     private float speed = 10f;
     private float jump_force = 10f;
     private float rollForce = 6.0f;
@@ -21,6 +24,9 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
+        respawn_pos.x = transform.position.x;
+        respawn_pos.y = transform.position.y;
     }
 
 
