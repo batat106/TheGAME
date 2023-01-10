@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public int hearts = 3;
+    public int live = 3;
     private (float x, float y) respawn_pos;
     
     private float speed = 10f;
@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour
     private float rollCurrentTime;
     //public ParticleSystem dust;
 
+    private bool damage;
+    private bool can_start_game;
+
     Rigidbody2D rb;
     Animator anim;
 
@@ -27,6 +30,9 @@ public class PlayerController : MonoBehaviour
 
         respawn_pos.x = transform.position.x;
         respawn_pos.y = transform.position.y;
+
+        damage = false;
+        can_start_game = true;
     }
 
 
@@ -68,7 +74,7 @@ public class PlayerController : MonoBehaviour
             rollCurrentTime = 0;
         }
         // Dead
-        if (hearts == 0)
+        if (live == 0)
         {
             GoToStartPoint();
             return;
@@ -88,8 +94,8 @@ public class PlayerController : MonoBehaviour
 
     void GoToStartPoint()
     {
-        hearts = 3;
-        transfrom.position = new Vector3(respawn_pos.x, respawn_pos.y);
+        live = 3;
+        transform.position = new Vector3(respawn_pos.x, respawn_pos.y);
     }
     
     void SetAnimationProperties(float velocity)
@@ -98,6 +104,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Jump", rb.velocity.y > 0);
         anim.SetBool("Fall", rb.velocity.y < 0);
         anim.SetBool("Roll", rolling);
+        // anim.SetBool("Hit", )
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -105,14 +112,27 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == LayerMask.NameToLayer("Ground"))
         {
             in_air = false;
+            if (damage)
+            {
+                damage = false;
+                anim.SetBool("Hit", false);
+            }
         }
     }
     
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (collider.gameObject.name == "DeathPit");
-        hearts = 0;
-
+        if (collider.gameObject.name == "DeathPit")
+        {
+            live = 0;
+        }
+        if (collider.gameObject.name == "Trap" && !damage)
+        {
+            live--;
+            damage = true;
+            anim.SetBool("Damage", true);
+            rb.velocity = new Vector2((transform.localScale.x > 0) ? 15f : -15f, 5f);
+        }
     }
     //void CreateDust()
     //{
