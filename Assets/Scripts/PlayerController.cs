@@ -131,7 +131,7 @@ public class PlayerController : MonoBehaviour
             live--;
             damage = true;
             anim.SetBool("Damage", true);
-            rb.velocity = new Vector2((transform.localScale.x > 0) ? 15f : -15f, 5f);
+            rb.velocity = new Vector2((transform.localScale.x > 0) ? -15f : 15f, 5f);
         }
     }
     //void CreateDust()
