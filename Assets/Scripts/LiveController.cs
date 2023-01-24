@@ -19,7 +19,7 @@ public class LiveController : MonoBehaviour
     void CreateLivePoint(int x)
     {
         GameObject live_point = Instantiate(LivePoint, transform);
-        live_point.transform.position = new Vector3(transform.position.x + x * 2f, transform.position.y);
+        live_point.transform.position = new Vector3(transform.position.x + x * 1.5f, transform.position.y);
         live.Add(live_point);
     }
     
