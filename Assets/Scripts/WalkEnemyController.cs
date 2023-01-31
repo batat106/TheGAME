@@ -183,5 +183,10 @@ public class WalkEnemyController : MonoBehaviour
         }
         Move();
     }
-
+    
+    void CheckAttackTimeOut()
+    {
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
+            anim.SetBool("Attack", false);
+    }
 }
