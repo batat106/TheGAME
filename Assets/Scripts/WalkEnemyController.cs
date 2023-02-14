@@ -52,7 +52,7 @@ public class WalkEnemyController : MonoBehaviour
             return;
         }
         CheckPlayerDestination();
-        if (currentType.type = "Attack")
+        if (currentType.type == "Attack")
         {
             PlayAttackScript();
         }
@@ -64,11 +64,11 @@ public class WalkEnemyController : MonoBehaviour
     
     bool CanUpdate()
     {
-        if (anim.SetBool("Damage"))
+        if (anim.GetBool("Damage"))
             return false;
         if (enemyLive == 0)
         {
-            Destroy(transform.GameObject);
+           Destroy(transform.gameObject);
         }
         return true;
     }
@@ -106,7 +106,7 @@ public class WalkEnemyController : MonoBehaviour
     
     void MoveEnemyToScriptPoint()
     {
-        if ((currentDirection > 0) ? (transform.position.x >= moveScript[currentStep].value) : (transform.postition.x <= moveScript[currentStep].value))
+        if ((currentDirection > 0) ? (transform.position.x >= moveScript[currentStep].value) : (transform.position.x <= moveScript[currentStep].value))
         {
             anim.SetBool("Run", false);
             ChangeWalkState();
@@ -117,7 +117,7 @@ public class WalkEnemyController : MonoBehaviour
 
     void Move()
     {
-        float current_speed = (currentType.type = "Attack") ? attackSpeed : speed;
+        float current_speed = (currentType.type == "Attack") ? attackSpeed : speed;
         transform.localScale = new Vector3(xScale * currentDirection, transform.localScale.y);
         rb.velocity = new Vector2(currentDirection * current_speed, rb.velocity.y);
         SetAnimationProperties();
@@ -149,7 +149,7 @@ public class WalkEnemyController : MonoBehaviour
         anim.SetBool("Attack", false);
     }
 
-    void CheckPlayerDistination()
+    void CheckPlayerDestination()
     {
         float distance = player.transform.position.x - transform.position.x;
         if (Mathf.Abs(distance) <= distanceToPlayer)
@@ -188,5 +188,26 @@ public class WalkEnemyController : MonoBehaviour
     {
         if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1)
             anim.SetBool("Attack", false);
+    }
+    
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (!collider.IsTouching(transform.GetComponent<CapsuleCollider2D>()))
+            return;
+        if (collider.gameObject.name == "DeathPit")
+            enemyLive = 0;
+        if (collider.gameObject.name == "DamageZone" && !anim.GetBool("Damage"))
+        {
+            enemyLive--;
+            anim.SetBool("Damage", true);
+            int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? 1 : -1;
+            rb.velocity = new Vector2(25f * damageDirection, 50f);
+        }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Ground") && anim.GetBool("Damage")) 
+            anim.SetBool("Damage", false);
     }
 }
