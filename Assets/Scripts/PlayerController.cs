@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     {
         if (live == 0)
         {
+            anim.SetBool("Dead", true);
             GoToStartPoint();
             return;
         }
@@ -51,6 +52,7 @@ public class PlayerController : MonoBehaviour
         
         // Jump
         float velocity = Input.GetAxis("Horizontal");
+
         if (Input.GetKey(KeyCode.Space) && !in_air && !rolling)
         {
             in_air = true;
@@ -107,7 +109,8 @@ public class PlayerController : MonoBehaviour
         }
         return true;
     }
-   //void FixedUpdate()
+   
+    //void FixedUpdate()
    //{
    //    if (rb.velocity.y < 0)
    //    {
@@ -124,14 +127,16 @@ public class PlayerController : MonoBehaviour
         rb.velocity = new Vector2(0f, 0f);
         SetAnimationProperties(rb.velocity.x);
 
-        transform.position = new Vector3(respawn_pos.x, respawn_pos.y);
+        
 
         StartCoroutine(StartGameAfterTimeOut());
+        
     }
     IEnumerator StartGameAfterTimeOut()
     {
         yield return new WaitForSeconds(2);
-
+        transform.position = new Vector3(respawn_pos.x, respawn_pos.y);
+        anim.SetBool("Dead", false);
         live = 3;
         damage = false;
         can_start_game = true;
@@ -171,6 +176,13 @@ public class PlayerController : MonoBehaviour
             damage = true;
             anim.SetBool("Hit", true);
             rb.velocity = new Vector2((transform.localScale.x > 0) ? -10f : 10f, 5f);
+        }
+        if (collider.gameObject.name == "AttackZone" && !damage)
+        {
+            live--;
+            damage = true;
+            anim.SetBool("Hit", true);
+            rb.velocity = new Vector2((transform.localScale.x > 0) ? -7f : 7f, 5f);
         }
     }
     //void CreateDust()

@@ -6,6 +6,7 @@ using System.Diagnostics;
 public class WalkEnemyController : MonoBehaviour
 {
     public GameObject player;
+    public PlayerController playerController;
     public int enemyLive;
     public float distanceToPlayer;
     public float attackDistance;
@@ -21,7 +22,7 @@ public class WalkEnemyController : MonoBehaviour
     private int currentDirection;
     private (string type, float value) currentType;
 
-    private float speed = 10f;
+    private float speed = 5f;
     private float attackSpeed = 15f;
     private float xScale;
 
@@ -52,7 +53,7 @@ public class WalkEnemyController : MonoBehaviour
             return;
         }
         CheckPlayerDestination();
-        if (currentType.type == "Attack")
+        if (currentType.type == "Attack" && playerController.live > 0)
         {
             PlayAttackScript();
         }
@@ -118,7 +119,7 @@ public class WalkEnemyController : MonoBehaviour
     void Move()
     {
         float current_speed = (currentType.type == "Attack") ? attackSpeed : speed;
-        transform.localScale = new Vector3(xScale * currentDirection, transform.localScale.y);
+        transform.localScale = new Vector3(-xScale * currentDirection, transform.localScale.y);
         rb.velocity = new Vector2(currentDirection * current_speed, rb.velocity.y);
         SetAnimationProperties();
     }
@@ -169,7 +170,7 @@ public class WalkEnemyController : MonoBehaviour
         currentDirection = (distation > 0) ? 1 : -1;
         if ((currentDirection > 0) ? (transform.position.x >= point) : (transform.position.x <= point))
         {
-            transform.localScale = new Vector3(xScale * currentDirection, transform.localScale.y);
+            transform.localScale = new Vector3(-xScale * currentDirection, transform.localScale.y);
             anim.SetBool("Run", false);
             if (Mathf.Abs(distation) <= attackDistance)
             {
