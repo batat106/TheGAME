@@ -77,10 +77,10 @@ public class WalkEnemyController : MonoBehaviour
     // bel to start
     void FillMovingScriptList()
     {
-        moveScript[0] = ("Move", rightPoint = transform.position.x + ((rightPoint != 0) ? rightPoint : 10));
-        moveScript[1] = ("Wait", waitTimeRightPoint = (waitTimeRightPoint != 0) ? waitTimeRightPoint : 2);
-        moveScript[2] = ("Move", leftPoint = transform.position.x + ((leftPoint != 0) ? leftPoint : 10));
-        moveScript[3] = ("Wait", waitTimeLeftPoint = (waitTimeLeftPoint != 0) ? waitTimeLeftPoint : 2);
+        moveScript[0] = ("Move", rightPoint = transform.position.x + ((rightPoint != 0) ? rightPoint : 10f));
+        moveScript[1] = ("Wait", waitTimeRightPoint = (waitTimeRightPoint != 0) ? waitTimeRightPoint : 2f);
+        moveScript[2] = ("Move", leftPoint = transform.position.x + ((leftPoint != 0) ? leftPoint : 10f));
+        moveScript[3] = ("Wait", waitTimeLeftPoint = (waitTimeLeftPoint != 0) ? waitTimeLeftPoint : 2f);
 
         distanceToPlayer = (distanceToPlayer > 0) ? distanceToPlayer : 12f;
         attackDistance = (attackDistance > 0) ? attackDistance : 5f;
