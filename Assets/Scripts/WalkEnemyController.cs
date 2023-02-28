@@ -22,8 +22,8 @@ public class WalkEnemyController : MonoBehaviour
     private int currentDirection;
     private (string type, float value) currentType;
 
-    private float speed = 5f;
-    private float attackSpeed = 15f;
+    private float speed = 3f;
+    private float attackSpeed = 5f;
     private float xScale;
 
     private Rigidbody2D rb;
@@ -162,8 +162,9 @@ public class WalkEnemyController : MonoBehaviour
         }
     }
 
-    void PlayAttackScript()
-    {
+    void PlayAttackScript() 
+    { 
+    
         float distation = currentType.value - transform.position.x;
         float point = (distation > 0) ? ((currentType.value <= moveScript[0].value) ? currentType.value - attackDistance : moveScript[0].value) : ((currentType.value >= moveScript[2].value) ? currentType.value + attackDistance : moveScript[2].value);
 
@@ -184,6 +185,12 @@ public class WalkEnemyController : MonoBehaviour
         }
         Move();
     }
+
+    //IEnumerator AttackReload()
+    //{
+    //    anim.SetBool("Run", false);
+    //    yield return new WaitForSeconds(5);
+    //}
     
     void CheckAttackTimeOut()
     {

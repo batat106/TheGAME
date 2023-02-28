@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private float fallGravityMultiplier = 2f;
     
     private bool in_air;
+    private bool attack = false;
     
     private bool rolling = false;
     private float rollDuration = 8.0f / 14.0f;
@@ -85,7 +86,12 @@ public class PlayerController : MonoBehaviour
             rolling = false;
             rollCurrentTime = 0;
         }
-        // Dead
+        // Attack (!in_air ?)
+        if(Input.GetKeyDown(KeyCode.Mouse0) && !in_air && !rolling)
+        {
+            GetComponent<Animator>().Play("Player_Attack");
+            //attack = true;
+        }
         if (live == 0)
         {
             GoToStartPoint();
@@ -149,6 +155,7 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Fall", rb.velocity.y < 0);
         anim.SetBool("Roll", rolling);
         anim.SetBool("Hit", false);
+        //anim.SetBool("Attack", attack);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

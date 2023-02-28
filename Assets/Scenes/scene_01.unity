@@ -13273,8 +13273,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.02215439, y: 0.7076629}
-  m_Size: {x: 0.8441957, y: 1.2889715}
+  m_Offset: {x: -0.033067048, y: 0.7076629}
+  m_Size: {x: 0.8223704, y: 1.2889715}
   m_Direction: 0
 --- !u!1 &575463428
 GameObject:
@@ -13728,7 +13728,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &777807043
 Transform:
   m_ObjectHideFlags: 0
@@ -20199,8 +20199,8 @@ MonoBehaviour:
   enemyLive: 3
   distanceToPlayer: 0
   attackDistance: 0
-  leftPoint: 0
-  rightPoint: 0
+  leftPoint: 30
+  rightPoint: 30
   waitTimeLeftPoint: 0
   waitTimeRightPoint: 0
 --- !u!50 &1108812319
