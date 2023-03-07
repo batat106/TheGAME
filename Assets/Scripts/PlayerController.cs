@@ -11,17 +11,20 @@ public class PlayerController : MonoBehaviour
     private float jump_force = 10f;
     private float rollForce = 6.0f;
     private float fallGravityMultiplier = 2f;
+
+    private int currentAttack = 0;
+    private float timeSinceAttack = 0.0f;
     
-    private bool in_air;
+    private bool  in_air;
     //private bool attack = false;
     
-    private bool rolling = false;
+    private bool  rolling = false;
     private float rollDuration = 8.0f / 14.0f;
     private float rollCurrentTime;
     //public ParticleSystem dust;
 
-    private bool damage;
-    private bool can_start_game;
+    private bool  damage;
+    private bool  can_start_game;
 
     Rigidbody2D rb;
     Animator anim;
@@ -86,14 +89,28 @@ public class PlayerController : MonoBehaviour
             rolling = false;
             rollCurrentTime = 0;
         }
-        // Attack (!in_air ?)
+        // Attack (!in_air 
+        timeSinceAttack += Time.deltaTime;
+        
         if (Input.GetMouseButtonDown(0))
         {
             //GetComponent<Animator>().Play("Player_Attack");
             //attack = true;
             anim.Play("Player_Attack");
-            anim.SetBool("Attack", true);
+            anim.SetBool("Attack", true); 
 
+            //currentAttack++;
+            //
+            //if (currentAttack > 3)
+            //    currentAttack = 1;
+            //
+            //// Reset Attack combo if time since last attack is too large
+            //if (timeSinceAttack > 1.0f)
+            //    currentAttack = 1;
+            //
+            //// Call one of three attack animations "Attack1", "Attack2", "Attack3"
+            //animator.SetTrigger("Attack" + m_currentAttack)
+            //timeSinceAttack = 0.0f;
         }
         else
         {
@@ -188,6 +205,8 @@ public class PlayerController : MonoBehaviour
     
     void OnTriggerEnter2D(Collider2D collider)
     {
+        if (!collider.IsTouching(transform.GetComponent<CapsuleCollider2D>()))
+            return;
         if (collider.gameObject.name == "DeathPit")
         {
             live = 0;

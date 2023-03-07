@@ -175,7 +175,7 @@ public class WalkEnemyController : MonoBehaviour
             anim.SetBool("Run", false);
             if (Mathf.Abs(distation) <= attackDistance)
             {
-                anim.SetBool("Attack", true);
+                //anim.SetBool("Attack", true);
             }
             else
             {
@@ -208,8 +208,8 @@ public class WalkEnemyController : MonoBehaviour
         {
             enemyLive--;
             anim.SetBool("Damage", true);
-            int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? 1 : -1;
-            rb.velocity = new Vector2(25f * damageDirection, 50f);
+            int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? -1 : 1;
+            rb.velocity = new Vector2(7f * damageDirection, 3f);
         }
     }
     
