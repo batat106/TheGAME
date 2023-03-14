@@ -96,21 +96,17 @@ public class PlayerController : MonoBehaviour
         {
             //GetComponent<Animator>().Play("Player_Attack");
             //attack = true;
-            anim.Play("Player_Attack");
-            anim.SetBool("Attack", true); 
+            //anim.Play("Player_Attack1");
+            currentAttack++;
+            anim.SetBool("Attack", true);
 
-            //currentAttack++;
-            //
-            //if (currentAttack > 3)
-            //    currentAttack = 1;
-            //
-            //// Reset Attack combo if time since last attack is too large
-            //if (timeSinceAttack > 1.0f)
-            //    currentAttack = 1;
-            //
-            //// Call one of three attack animations "Attack1", "Attack2", "Attack3"
-            //animator.SetTrigger("Attack" + m_currentAttack)
-            //timeSinceAttack = 0.0f;
+            currentAttack = ((currentAttack > 3) ? 1 : currentAttack);
+
+            if (timeSinceAttack > 1.0f)
+                currentAttack = 1;
+
+            anim.Play("Player_Attack" + currentAttack);    
+            timeSinceAttack = 0.0f;
         }
         else
         {
@@ -177,7 +173,7 @@ public class PlayerController : MonoBehaviour
     void SetAnimationProperties(float velocity)
     {
 
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack") && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) // 
+        if ((anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack1") || anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack2") || anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Attack3")) && anim.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f) // 
         {
             return;
         }
