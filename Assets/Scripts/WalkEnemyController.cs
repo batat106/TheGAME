@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Diagnostics;
+using TMPro;
 
 public class WalkEnemyController : MonoBehaviour
 {
     public GameObject player;
+    public TextMeshProUGUI livesText;
     public PlayerController playerController;
     public int enemyLive;
     public float distanceToPlayer;
@@ -38,6 +40,7 @@ public class WalkEnemyController : MonoBehaviour
         anim = transform.GetChild(0).GetComponent<Animator>();
         xScale = transform.localScale.x;
         enemyLive = (enemyLive > 0) ? enemyLive : 3;
+        livesText.text = "HP: " + enemyLive;   
     }
 
     
@@ -121,6 +124,7 @@ public class WalkEnemyController : MonoBehaviour
         float current_speed = (currentType.type == "Attack") ? attackSpeed : speed;
         transform.localScale = new Vector3(-xScale * currentDirection, transform.localScale.y);
         rb.velocity = new Vector2(currentDirection * current_speed, rb.velocity.y);
+        //livesText.transform.localScale = new Vector3(currentDirection, livesText.transform.localScale.y);
         SetAnimationProperties();
     }
 
@@ -210,6 +214,7 @@ public class WalkEnemyController : MonoBehaviour
             anim.SetBool("Damage", true);
             int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? -1 : 1;
             rb.velocity = new Vector2(7f * damageDirection, 3f);
+            livesText.text = "HP: " + enemyLive;
         }
     }
     
