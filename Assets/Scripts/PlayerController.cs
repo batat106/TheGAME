@@ -26,6 +26,10 @@ public class PlayerController : MonoBehaviour
     private bool  damage;
     private bool  can_start_game;
 
+    // Attack delay
+    public float cooldown = 1f;
+    private float lastAttackedAt = -9999f;
+
     Rigidbody2D rb;
     Animator anim;
 
@@ -104,9 +108,13 @@ public class PlayerController : MonoBehaviour
 
             if (timeSinceAttack > 1.0f)
                 currentAttack = 1;
-
-            anim.Play("Player_Attack" + currentAttack);    
-            timeSinceAttack = 0.0f;
+            if (Time.time > lastAttackedAt + cooldown)
+            {
+                anim.Play("Player_Attack" + currentAttack);
+                lastAttackedAt += cooldown;
+                timeSinceAttack = 0.0f;
+            }
+            
         }
         else
         {
@@ -169,7 +177,7 @@ public class PlayerController : MonoBehaviour
         damage = false;
         can_start_game = true;
     }
-    
+
     void SetAnimationProperties(float velocity)
     {
 

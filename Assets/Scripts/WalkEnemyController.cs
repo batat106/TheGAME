@@ -31,6 +31,10 @@ public class WalkEnemyController : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
 
+    //Attack
+    public float cooldown = 2f;
+    private float lastAttackedAt = -9999f;
+
     void Start()
     {
         FillMovingScriptList();
@@ -179,7 +183,12 @@ public class WalkEnemyController : MonoBehaviour
             anim.SetBool("Run", false);
             if (Mathf.Abs(distation) <= attackDistance)
             {
-                //anim.SetBool("Attack", true);
+                if (Time.time > lastAttackedAt + cooldown)
+                {
+                    anim.SetBool("Attack", true);
+                    lastAttackedAt = Time.time;
+                }
+                
             }
             else
             {
