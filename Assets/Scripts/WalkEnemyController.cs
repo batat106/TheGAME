@@ -221,9 +221,10 @@ public class WalkEnemyController : MonoBehaviour
         {
             enemyLive--;
             anim.SetBool("Damage", true);
-            int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? -1 : 1;
+            int damageDirection = ((transform.position.x - collider.transform.position.x) > 0) ? -1 : 1; // BETTER DAMAGE DIRECTION THAN IN PC
             rb.velocity = new Vector2(7f * damageDirection, 3f);
             livesText.text = "HP: " + enemyLive;
+            lastAttackedAt = Time.time; // restart ability to attack
         }
     }
     

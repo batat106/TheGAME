@@ -30,6 +30,10 @@ public class PlayerController : MonoBehaviour
     public float cooldown = 1f;
     private float lastAttackedAt = -9999f;
 
+    //test
+    public GameObject enemy;
+    
+    
     Rigidbody2D rb;
     Animator anim;
 
@@ -224,10 +228,12 @@ public class PlayerController : MonoBehaviour
         }
         if (collider.gameObject.name == "AttackZone" && !damage)
         {
+            float distance = transform.position.x - enemy.transform.position.x; 
             live--;
             damage = true;
             anim.SetBool("Hit", true);
-            rb.velocity = new Vector2((transform.localScale.x > 0) ? -7f : 7f, 5f);
+            rb.velocity = new Vector2((distance > 0) ? 7f : -7f, 5f);
+            //rb.velocity = new Vector2((transform.localScale.x > 0) ? -7f : 7f, 5f);
         }
     }
     //void CreateDust()
