@@ -191,8 +191,8 @@ public class PlayerController : MonoBehaviour
         }
         anim.SetBool("Attack", false);
         anim.SetBool("Run", velocity != 0);
-        anim.SetBool("Jump", rb.velocity.y > 0);
-        anim.SetBool("Fall", rb.velocity.y < 0);
+        anim.SetBool("Jump", rb.velocity.y > 0.1);
+        anim.SetBool("Fall", rb.velocity.y < -0.1);
         anim.SetBool("Roll", rolling);
         anim.SetBool("Hit", false);
         
